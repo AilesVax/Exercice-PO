@@ -23,8 +23,10 @@ return false;
 
     } 
 
-    public function cancelReservation(int $reservationId) : bool{
-        
+    public function cancelReservation(int $reservationId): bool {
+        $sql = $this->co->prepare("UPDATE etat FROM reservation  SET etat = 0 WHERE id = :id");
+        return $sql->execute(['id' => $reservationId]);
     }
+
 }
 
