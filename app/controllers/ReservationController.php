@@ -1,0 +1,51 @@
+<?php
+require_once './app/utils/Render.php';
+class ReservationController{
+    use Render;
+
+  public function index(): void
+  {
+    $user = $_SESSION['user']['id'];
+    $reservModel = new ReservationModel();
+    $reserv = $reservModel->getReservationsByUserId($user);
+    $data = [
+      'title' => 'Liste des reservations',
+      'reserv' => $reserv
+    ];
+ 
+    // Rendu avec layout
+    $this->renderView('user/all', $data);
+  }
+
+
+  public function create(int $activityId){
+      {
+    $user = $_SESSION['user']['id'];
+    $actModel = new ReservationModel();
+    $act = $actModel->createReservation($user,$activityId);
+    $data = [
+      'title' => 'activité',
+      'act' => $act
+    ];
+ 
+    // Rendu avec layout
+    $this->renderView('user/all', $data);
+  }
+  }
+
+    public function cancel(int $id){
+      {
+    // $user = $_SESSION['user']['id'];
+    $cancelModel = new ReservationModel();
+    $cancel = $cancelModel->cancelReservation($id);
+    $data = [
+      'title' => 'activité',
+      'act' => $cancel
+    ];
+ 
+    // Rendu avec layout
+    $this->renderView('user/all', $data);
+  }
+  }
+
+}
