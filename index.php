@@ -26,9 +26,5 @@ require_once './app/controllers/UserController.php';
 require_once './app/utils/Router.php';
  
 $router = new Router();
-<<<<<<< HEAD
 $router->dispatch($_SERVER['REQUEST_URI']);
 
-=======
-$router->dispatch($_SERVER['REQUEST_URI']);
->>>>>>> 12b692acb1a63b2d25e9f47219c92313d36c9257

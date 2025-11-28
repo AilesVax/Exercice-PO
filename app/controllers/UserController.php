@@ -5,7 +5,7 @@ class UserController{
   public function findAll(): void
   {
     $userModel = new UserModel();
-    $users = $userModel->findAll();
+    $users = $userModel->getAllUsers();
  
     // require_once './app/views/user/all.php'; remplacer par ce qu'il y a dessous
      // Prépatation du tableau à envoyer au layout
