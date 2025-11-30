@@ -9,23 +9,32 @@ class UserController{
 
   }  
   
-   public function register(array $data) : void{
-    $createUser = new UserModel;
-    $user = $createUser->createUser($data);
-      $data2 = [
-      'title' => 'Liste des utilisateurs',
-      'users' => $user
-    ];
-     $this->renderView('user/all', $data2);
-  }  
-     public function login(string $email,string $mdp) : void{
-    $logUser = new UserModel;
-    $userLog = $logUser->logUser($email,$mdp);
-      $data2 = [
-      'title' => 'Liste des utilisateurs',
-      'users' => $userLog
-    ];
-    $this->renderView('user/all', $data2);
+public function register(array $data = []): void {
+   // Récupère les données POST si disponibles
+   $data = $_POST ?: $data;
+    if (!empty($data)) {
+        $createUser = new UserModel();
+        $user = $createUser->createUser($data);
+
+        $this->renderView('user/register', [
+            'title' => 'Utilisateur créé',
+            'users' => $user
+        ]);
+    } else {
+        $this->renderView('user/register', [
+            'title' => 'Créer un utilisateur'
+        ]);
+    }
+}
+ 
+     public function login(string $email = '', string $mdp = '') : void{
+      $logUser = new UserModel();
+        $userLog = $logUser->logUser($email, $mdp);
+
+        $this->renderView('user/login', [
+            'title' => 'Connexion',
+            'users' => $userLog
+        ]);
   }  
 
      public function logout() : void{
@@ -33,6 +42,11 @@ class UserController{
 
     // Détruit la session
     session_destroy();
+    $this->renderView('user/logout', [
+            'title' => 'Decoonexion',
+            
+        ]);
+    exit;
   }  
 
 

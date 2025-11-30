@@ -19,7 +19,7 @@ class UserModel extends Bdd{
   // }
 
   public function logUser(string $email, string $motdepasse): array{
-  session_start();
+
  
 
     $sql = $this->co->prepare('SELECT * from Users WHERE email = :email LIMIT 1');

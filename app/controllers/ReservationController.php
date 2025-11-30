@@ -14,7 +14,7 @@ class ReservationController{
     ];
  
     // Rendu avec layout
-    $this->renderView('user/all', $data);
+    $this->renderView('reservation/index', $data);
   }
 
 
@@ -29,7 +29,7 @@ class ReservationController{
     ];
  
     // Rendu avec layout
-    $this->renderView('user/all', $data);
+    $this->renderView('reservation/index', $data);
   }
   }
   public function show(int $id){
@@ -42,7 +42,7 @@ class ReservationController{
     ];
  
     // Rendu avec layout
-    $this->renderView('user/all', $data);
+    $this->renderView('reservation/show', $data);
   }
   }
   
@@ -58,7 +58,7 @@ class ReservationController{
     ];
  
     // Rendu avec layout
-    $this->renderView('user/all', $data);
+    $this->renderView('reservation/', $data);
   }
   }
 

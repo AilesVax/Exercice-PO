@@ -21,10 +21,9 @@ Autoload::register();
 // // Affichage des utilisateurs
 // var_dump($users);
 
-require_once './app/controllers/UserController.php';
- 
+session_start();
 require_once './app/utils/Router.php';
- 
+
 $router = new Router();
 $router->dispatch($_SERVER['REQUEST_URI']);
 

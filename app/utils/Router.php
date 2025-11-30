@@ -1,49 +1,26 @@
 <?php
 
-class Router{
-  public function dispatch($url)
-  {
-    // Suppression des / en début et fin de chaine
-    $url = trim($url, '/');
-    // Découpe en tableau l'URL
-    $url = explode('/', $url);
- 
-    // Le premier élément de l'URL est le contrôleur
-    if(empty($url[0])){
-      // Redirection vers la 404
-      die('<p>404</p>');
+class Router {
+    public function dispatch($url) {
+        $url = trim($url, '/');
+        $url = explode('/', $url);
+
+        $controllerName = ucfirst($url[1] ?? 'user') . 'Controller'; // Index 1 car /MVC/user/...
+        $methodName = $url[2] ?? 'index';
+        $params = array_slice($url, 3);
+
+        $controllerFile = "./app/controllers/$controllerName.php";
+        if (file_exists($controllerFile)) {
+            require_once $controllerFile;
+            $controller = new $controllerName;
+
+            if (method_exists($controller, $methodName)) {
+                call_user_func_array([$controller, $methodName], $params);
+            } else {
+                die('<p>Méthode introuvable</p>');
+            }
+        } else {
+            die('<p>Controleur introuvable</p>');
+        }
     }
- 
-    // Défini le nom du controller
-    $controllerName = ucfirst($url[0]) . 'Controller';
- 
-    // Le second élément de l'URL est la méthode
-    if(isset($url[1])){
-      $methodName = $url[1];
-    }
-    else{
-      $methodName = 'index';
-    }
-    
-    // Extrait la suite de l'URL
-    $params = array_slice($url, 2);
- 
-    // Vérification de l'existence du contrôleur
-    if (file_exists("./app/controllers/$controllerName.php")) {
-      // Charge le controleur
-      require_once "./app/controllers/$controllerName.php";
-      // Initialise le controleur
-      $controller = new $controllerName;
- 
-      // Vérification de l'existence de la méthode dans le contrôleur
-      if (method_exists($controller, $methodName)) {
-        // Appel la méthode du controleur et envoie les paramètres
-        call_user_func_array([$controller, $methodName], $params);
-      } else {
-        die('<p>Méthode introuvable</p>');
-      }
-    } else {
-      die('<p>Controleur introuvable</p>');
-    }
-  }
 }
