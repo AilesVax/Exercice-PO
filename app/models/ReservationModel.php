@@ -28,5 +28,10 @@ return false;
         return $sql->execute(['id' => $reservationId]);
     }
 
+    public function reservationDetail(int $reservationId): array{
+        $sql = $this->co->prepare("SELECT reservations.* , activities.* FROM reservations JOIN activities ON reservations.activite_id = activities.id WHERE reservations.id = :id");
+        return $sql->execute(['id' => $reservationId]);
+    }
+
 }
 

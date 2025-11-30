@@ -45,12 +45,15 @@ return [];
 public function createUser(array $data) : bool{
   $sql = $this->co->prepare("INSERT INTO user (prenom,nom,email, motdepasse) VALUES(:prenom,:nom,:email,:motdepasse)");
   if($sql->execute([
-    'pseudo' => $data['prenom'],
+    'prenom' => $data['prenom'],
     'nom' => $data['nom'],
     'email' => $data['email'],
     'motdepasse' => $data['motdepasse']
   ])){
-    return true;
+    return ['prenom' => $data['prenom'],
+    'nom' => $data['nom'],
+    'email' => $data['email'],
+    'motdepasse' => $data['motdepasse']];
   }
 return false;
 } 

@@ -32,6 +32,20 @@ class ReservationController{
     $this->renderView('user/all', $data);
   }
   }
+  public function show(int $id){
+      {
+    $detailsModel = new ReservationModel();
+    $details = $detailsModel->reservationDetail($id);
+    $data = [
+      'title' => 'activité',
+      'act' => $details
+    ];
+ 
+    // Rendu avec layout
+    $this->renderView('user/all', $data);
+  }
+  }
+  
 
     public function cancel(int $id){
       {
