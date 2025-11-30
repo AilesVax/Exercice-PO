@@ -45,13 +45,14 @@ public function show(int $id,int $userId):void {
     $user = $role->fetch(PDO::FETCH_ASSOC);
     $Role = $user['role'];
 
-    if ($Role === 'admin' && $_SERVER['REQUEST_METHOD'] === 'UPDATE') {
-        update(getActivityById($id));
+    if ($role === 'admin' && isset($_POST['update'])) {
+        $this->update($id, $_POST);
     }
 
-    if ($Role === 'admin' && $_SERVER['REQUEST_METHOD'] === 'DELETE') {
-        delete($id);
+    if ($role === 'admin' && isset($_POST['delete'])) {
+        $this->delete($id);
     }
+    
     $details = getActivityById($id);
     $data = [
         'title' => 'Detail de l"activité',
@@ -62,9 +63,30 @@ public function show(int $id,int $userId):void {
 
 }
 
+public function update(int $id, array $data): void
+{
+    $sql = "UPDATE activities SET nom = :nom, type_id = :type_id, places_disponibles = :places, description = :description, datetime_debut = :date, duree = :duree WHERE id = :id";
 
+    $insert = $this->co->prepare($sql);
+    $insert->execute([
+        'nom'        => $data['nom'],
+        'type_id'    => $data['type_id'],
+        'places'     => $data['places_disponibles'],
+        'description'=> $data['description'],
+        'date'       => $data['datetime_debut'],
+        'duree'      => $data['duree'],
+        'id'         => $id
+    ]);
+}
 
+public function delete(int $id): void
+{
+    $deleteReserv = $this->co->prepare("DELETE FROM reservations WHERE activite_id = :id");
+    $deleteReserv->execute(['id' => $id]);
 
+    $delete = $this->co->prepare("DELETE FROM activities WHERE id = :id");
+    $delete->execute(['id' => $id]);
+}
 
 
 
