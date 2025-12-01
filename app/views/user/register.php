@@ -2,14 +2,17 @@
 
 <form action="/MVC/user/register" method="POST">
 
-    <label for="username">Nom d'utilisateur :</label><br>
-    <input type="text" name="username" id="username" required><br><br>
+    <label for="prenom">Prénom :</label><br>
+    <input type="text" name="prenom" id="prenom" required><br><br>
+
+    <label for="nom">Nom :</label><br>
+    <input type="text" name="nom" id="nom" required><br><br>
 
     <label for="email">Email :</label><br>
     <input type="email" name="email" id="email" required><br><br>
 
     <label for="password">Mot de passe :</label><br>
-    <input type="password" name="password" id="password" required><br><br>
+    <input type="password" name="motdepasse" id="password" required><br><br>
 
     <button type="submit">Créer l'utilisateur</button>
 
@@ -17,6 +20,6 @@
 
 <?php if (!empty($users)) : ?>
     <h2>Utilisateur créé :</h2>
-    <p><strong>Nom :</strong> <?= htmlspecialchars($users['username']) ?></p>
+    <p><strong>Nom :</strong> <?= htmlspecialchars($users['nom']) ?></p>
     <p><strong>Email :</strong> <?= htmlspecialchars($users['email']) ?></p>
 <?php endif; ?>

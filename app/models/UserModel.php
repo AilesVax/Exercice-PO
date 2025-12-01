@@ -43,20 +43,15 @@ return [];
 
 
 public function createUser(array $data) : bool{
-  $sql = $this->co->prepare("INSERT INTO user (prenom,nom,email, motdepasse) VALUES(:prenom,:nom,:email,:motdepasse)");
-  if($sql->execute([
+  $sql = $this->co->prepare("INSERT INTO users (prenom,nom,email, motdepasse) VALUES(:prenom,:nom,:email,:motdepasse)");
+  return $sql->execute([
     'prenom' => $data['prenom'],
     'nom' => $data['nom'],
     'email' => $data['email'],
     'motdepasse' => $data['motdepasse']
-  ])){
-    return ['prenom' => $data['prenom'],
-    'nom' => $data['nom'],
-    'email' => $data['email'],
-    'motdepasse' => $data['motdepasse']];
+  ]);
   }
-return false;
-} 
+
 
 
   public function getAllUsers(): array

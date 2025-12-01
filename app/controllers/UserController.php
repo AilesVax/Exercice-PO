@@ -18,7 +18,10 @@ public function register(array $data = []): void {
 
         $this->renderView('user/register', [
             'title' => 'Utilisateur créé',
-            'users' => $user
+            'users' =>  $user = [
+                'nom' => $_POST['nom'],
+                'email' => $_POST['email']
+            ]
         ]);
     } else {
         $this->renderView('user/register', [
