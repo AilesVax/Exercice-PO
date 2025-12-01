@@ -45,19 +45,19 @@ public function show(int $id,int $userId):void {
     $user = $role->fetch(PDO::FETCH_ASSOC);
     $Role = $user['role'];
 
-    if ($role === 'admin' && isset($_POST['update'])) {
+    if ($Role === 'admin' && isset($_POST['update'])) {
         $this->update($id, $_POST);
     }
 
-    if ($role === 'admin' && isset($_POST['delete'])) {
+    if ($Role === 'admin' && isset($_POST['delete'])) {
         $this->delete($id);
     }
-    
+
     $details = getActivityById($id);
     $data = [
         'title' => 'Detail de l"activité',
         'reserv' => $details,
-        'role' => $role
+        'role' => $Role
     ];
     $this->renderView('activity/show', $data);
 
