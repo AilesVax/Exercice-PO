@@ -1,10 +1,12 @@
 <h1><?= $title ?></h1>
 
 <?php if (!empty($error)) : ?>
+    
     <p style="color:red;"><?= htmlspecialchars($error) ?></p>
 <?php endif; ?>
 
 <form action="" method="POST">
+    
     <label for="email">Email :</label><br>
     <input type="email" name="email" id="email" required><br><br>
 
@@ -17,5 +19,7 @@
 <?php if (!empty($user)) : ?>
     <h2>Bienvenue <?= htmlspecialchars($user['prenom']) ?> <?= htmlspecialchars($user['nom']) ?> !</h2>
 <?php endif; ?>
+
+
 
 

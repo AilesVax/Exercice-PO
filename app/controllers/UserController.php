@@ -10,6 +10,7 @@ class UserController{
   }  
   
 public function register(array $data = []): void {
+
     if (!empty($data)) {
         $createUser = new UserModel();
         $user = $createUser->createUser($data);
@@ -28,21 +29,26 @@ public function register(array $data = []): void {
     }
 }
  
-public function login(string $email = '', string $mdp = '') : void {
-// Récupérer les POST si les arguments sont vides
-if ($email === '' && $mdp === '' && !empty($_POST)) {
-    $email = $_POST['email'] ;
-    $mdp = $_POST['motdepasse'] ;
-}
+public function login(string $email = '', string $mdp = ''): void {
 
-$logUser = new UserModel();
-$userLog = $logUser->logUser($email, $mdp);
-$this->renderView('user/login', [
-    'title' => 'Connexion',
-    'user'  => $userLog,
-]);
+    // Récupérer les POST si les arguments sont vides
+        if ($email === '' && $mdp === '' && !empty($_POST)) {
+            $email = $_POST['email'];
+            $mdp   = $_POST['motdepasse'];
+        }
+        $logUser = new UserModel();
+        $userLog = $logUser->logUser($email, $mdp);
+        if (!empty($userLog)) {
+            $_SESSION['user_id'] = $userLog['id'];
+            $_SESSION['prenom']  = $userLog['prenom'];
+            $_SESSION['nom']     = $userLog['nom'];
+        }
 
-}
+        $this->renderView('user/login', [
+            'title' => 'Connexion',
+            'user'  => $userLog
+        ]);
+    }
 
      public function logout() : void{
       $_SESSION = [];
