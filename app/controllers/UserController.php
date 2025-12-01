@@ -30,15 +30,30 @@ public function register(array $data = []): void {
     }
 }
  
-     public function login(string $email = '', string $mdp = '') : void{
-      $logUser = new UserModel();
-        $userLog = $logUser->logUser($email, $mdp);
+public function login(string $email = '', string $mdp = '') : void {
+// Récupérer les POST si les arguments sont vides
+if ($email === '' && $mdp === '' && !empty($_POST)) {
+$email = $_POST['email'] ?? '';
+$mdp = $_POST['motdepasse'] ?? '';
+}
 
-        $this->renderView('user/login', [
-            'title' => 'Connexion',
-            'users' => $userLog
-        ]);
-  }  
+$logUser = new UserModel();
+$userLog = $logUser->logUser($email, $mdp); // renvoie tableau ou []
+
+// Gestion d'erreur si login invalide
+$error = '';
+if (empty($userLog) && !empty($_POST)) {
+    $error = 'Email ou mot de passe incorrect.';
+}
+
+// Afficher la vue
+$this->renderView('user/login', [
+    'title' => 'Connexion',
+    'user'  => $userLog,
+    'error' => $error
+]);
+
+}
 
      public function logout() : void{
       $_SESSION = [];

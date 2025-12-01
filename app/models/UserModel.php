@@ -19,13 +19,10 @@ class UserModel extends Bdd{
   // }
 
   public function logUser(string $email, string $motdepasse): array{
-
- 
-
     $sql = $this->co->prepare('SELECT * from Users WHERE email = :email LIMIT 1');
     $sql->execute(["email" => $email]);
     $user = $sql->fetch(PDO::FETCH_ASSOC);
-    if($user && password_verify($motdepasse, $user["motdepasse"])){
+    if($user && $user['motdepasse'] === $motdepasse){
       $_SESSION['user_id'] = $user['id'];
       return [
             "id"     => $user["id"],
