@@ -10,8 +10,6 @@ class UserController{
   }  
   
 public function register(array $data = []): void {
-   // Récupère les données POST si disponibles
-   $data = $_POST ?: $data;
     if (!empty($data)) {
         $createUser = new UserModel();
         $user = $createUser->createUser($data);
@@ -33,24 +31,15 @@ public function register(array $data = []): void {
 public function login(string $email = '', string $mdp = '') : void {
 // Récupérer les POST si les arguments sont vides
 if ($email === '' && $mdp === '' && !empty($_POST)) {
-$email = $_POST['email'] ?? '';
-$mdp = $_POST['motdepasse'] ?? '';
+    $email = $_POST['email'] ;
+    $mdp = $_POST['motdepasse'] ;
 }
 
 $logUser = new UserModel();
-$userLog = $logUser->logUser($email, $mdp); // renvoie tableau ou []
-
-// Gestion d'erreur si login invalide
-$error = '';
-if (empty($userLog) && !empty($_POST)) {
-    $error = 'Email ou mot de passe incorrect.';
-}
-
-// Afficher la vue
+$userLog = $logUser->logUser($email, $mdp);
 $this->renderView('user/login', [
     'title' => 'Connexion',
     'user'  => $userLog,
-    'error' => $error
 ]);
 
 }
