@@ -13,10 +13,15 @@ class ReservationModel extends Bdd{
 return false;
 } 
 
+    public function __construct()
+    {
+        parent::__construct(); // autorisé depuis la classe enfant
+    }
+
     public function getReservationsByUserId(int $userId) : array{
-        $sql = $this->co->prepare("SELECT * FROM reservation WHERE id_user = :id_user LIMIT 1 ");
+        $sql = $this->co->prepare("SELECT * FROM reservations WHERE user_id = :user_id");
         $sql->execute([
-            'id_user' => $userId,
+            'user_id' => $userId,
             
         ]);
         return $sql->fetchAll(PDO::FETCH_ASSOC);

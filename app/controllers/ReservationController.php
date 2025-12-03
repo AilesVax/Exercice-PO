@@ -5,7 +5,7 @@ class ReservationController{
 
   public function index(): void
   {
-    $user = $_SESSION['user']['id'];
+    $user = $_SESSION['user_id'];;
     $reservModel = new ReservationModel();
     $reserv = $reservModel->getReservationsByUserId($user);
     $data = [
