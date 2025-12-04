@@ -7,7 +7,7 @@ class ActiviteModel extends Bdd {
   }
     
   public function getAllActivities(): array {
-    $activites = $this->co->prepare('SELECT nom FROM activities');
+    $activites = $this->co->prepare('SELECT * FROM activities');
     $activites->execute();
     return $activites->fetchAll(PDO::FETCH_ASSOC);
   }
@@ -15,7 +15,7 @@ class ActiviteModel extends Bdd {
   public function getActivityById(int $id) : array {
     $activite = $this->co->prepare('SELECT * FROM activities WHERE id = :id');
     $activite->execute(['id' => $id]);
-    return $activite->fetchAll(PDO::FETCH_ASSOC);
+    return $activite->fetch(PDO::FETCH_ASSOC);
   }
     
   public function getPlacesLeft(int $activityId): int{

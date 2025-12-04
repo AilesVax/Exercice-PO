@@ -13,10 +13,13 @@ class ActivityController extends Bdd {
         $this->activiteModel = new ActiviteModel();
     }
 
-    public function index(int $userId = null): void
+    public function index(): void
     {
+        session_start();
+        $userId = $_SESSION['user_id'] ?? null;
+        
         if ($userId === null) {
-            die('<p>Utilisateur non spécifié</p>');
+            die('<p>Utilisateur non connecté</p>');
         }
 
         $roleStmt = $this->co->prepare("SELECT role FROM users WHERE id = :id");
@@ -29,20 +32,8 @@ class ActivityController extends Bdd {
         
         $Role = $user['role'];
 
-        if ($Role === 'admin' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-            $Insert = $this->co->prepare("
-                INSERT INTO activities (nom, type_id, places_disponibles, description, datetime_debut, duree)
-                VALUES (:nom, :type_id, :places, :description, :date, :duree)
-            ");
-
-            $Insert->execute([
-                'nom'        => $_POST['nom'],
-                'type_id'    => $_POST['type_id'],
-                'places'     => $_POST['places_disponibles'],
-                'description'=> $_POST['description'],
-                'date'       => $_POST['datetime_debut'],
-                'duree'      => $_POST['duree']
-            ]);
+        if ($Role === 'admin' && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
+            $this->create($_POST);
         }
 
         $activites = $this->activiteModel->getAllActivities();
@@ -53,11 +44,24 @@ class ActivityController extends Bdd {
             'role' => $Role
         ];
 
-        $this->renderView('/', $data);
+        $this->renderView('activity/index', $data);
     }
 
-    public function show(int $id, int $userId): void
+    public function show(): void
     {
+        $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+        
+        if ($id <= 0) {
+            die('<p>ID d\'activité invalide</p>');
+        }
+
+        session_start();
+        $userId = $_SESSION['user_id'] ?? null;
+        
+        if ($userId === null) {
+            die('<p>Utilisateur non connecté</p>');
+        }
+
         $roleStmt = $this->co->prepare("SELECT role FROM users WHERE id = :id");
         $roleStmt->execute(['id' => $userId]);
         $user = $roleStmt->fetch(PDO::FETCH_ASSOC);
@@ -74,9 +78,14 @@ class ActivityController extends Bdd {
 
         if ($Role === 'admin' && isset($_POST['delete'])) {
             $this->delete($id);
+
         }
 
         $details = $this->activiteModel->getActivityById($id);
+
+        if (!$details) {
+            die('<p>Activité introuvable</p>');
+        }
 
         $data = [
             'title' => 'Détail de l\'activité',
@@ -85,6 +94,23 @@ class ActivityController extends Bdd {
         ];
 
         $this->renderView('activity/show', $data);
+    }
+
+    public function create(array $data): void
+    {
+        $Insert = $this->co->prepare("
+            INSERT INTO activities (nom, type_id, places_disponibles, description, datetime_debut, duree)
+            VALUES (:nom, :type_id, :places, :description, :date, :duree)
+        ");
+
+        $Insert->execute([
+            'nom'        => $data['nom'],
+            'type_id'    => $data['type_id'],
+            'places'     => $data['places_disponibles'],
+            'description'=> $data['description'],
+            'date'       => $data['datetime_debut'],
+            'duree'      => $data['duree']
+        ]);
     }
 
     public function update(int $id, array $data): void
