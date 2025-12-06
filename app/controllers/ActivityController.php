@@ -15,7 +15,6 @@ class ActivityController extends Bdd {
 
     public function index(): void
     {
-        session_start();
         $userId = $_SESSION['user_id'] ?? null;
         
         if ($userId === null) {

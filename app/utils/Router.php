@@ -22,5 +22,6 @@ class Router {
         } else {
             die('<p>Controleur introuvable</p>');
         }
+        
     }
 }

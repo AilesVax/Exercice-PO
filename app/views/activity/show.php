@@ -5,7 +5,7 @@
 <p><strong>Date début :</strong> <?= date('d/m/Y à H:i', strtotime($reserv['datetime_debut'])) ?></p>
 <p><strong>Durée :</strong> <?= $reserv['duree'] ?> heures</p>
 
-<a href="/">Retour à la liste</a>
+<a href="/MVC">Retour à la liste</a>
 
 <?php if ($role === 'admin') : ?>
     <hr>

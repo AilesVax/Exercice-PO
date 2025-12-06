@@ -7,8 +7,8 @@
         <?php foreach ($reserv as $act) : ?>
             <li>
                 <strong><?= htmlspecialchars($act['nom']) ?></strong>
-                 <?= htmlspecialchars($act['description']) ?>
-                <a href="/activity/show?id=<?= $act['id'] ?>">Voir détail</a>
+                - <?= htmlspecialchars($act['description']) ?>
+                <a href="activity/show?id=<?= $act['id'] ?>">Voir détail</a>
             </li>
         <?php endforeach; ?>
     </ul>
@@ -18,7 +18,7 @@
     <hr>
     <h2>Créer une nouvelle activité</h2>
 
-    <form action="/activity/create" method="POST">
+    <form action="MVC/activity/create" method="POST">
         <label>Nom :</label>
         <input type="text" name="nom" required><br>
 
