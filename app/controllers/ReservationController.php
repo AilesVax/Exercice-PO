@@ -13,7 +13,6 @@ class ReservationController{
       'reserv' => $reserv
     ];
  
-    // Rendu avec layout
     $this->renderView('reservation/index', $data);
   }
 
@@ -27,8 +26,7 @@ class ReservationController{
       'title' => 'activité',
       'act' => $act
     ];
- 
-    // Rendu avec layout
+
     $this->renderView('reservation/index', $data);
   }
   }
@@ -41,25 +39,20 @@ class ReservationController{
       'act' => $details
     ];
  
-    // Rendu avec layout
     $this->renderView('reservation/show', $data);
   }
   }
   
 
     public function cancel(int $id){
-      {
-    // $user = $_SESSION['user']['id'];
+
     $cancelModel = new ReservationModel();
-    $cancel = $cancelModel->cancelReservation($id);
-    $data = [
-      'title' => 'activité',
-      'act' => $cancel
-    ];
+    $cancelModel->cancelReservation($id);
+
+      header('Location: /MVC/reservation/index');
  
-    // Rendu avec layout
-    $this->renderView('reservation/', $data);
-  }
+      exit;
+  
   }
 
 }
