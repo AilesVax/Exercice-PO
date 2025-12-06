@@ -6,6 +6,11 @@
 <p><strong>Durée :</strong> <?= $reserv['duree'] ?> heures</p>
 
 <a href="/MVC/activity">Retour à la liste d'activitées</a>
+<form action="/MVC/reservation/create/<?= $reserv['id'] ?>" method="POST">
+    <button type="submit" >
+        Réserver cette activité
+    </button>
+</form>
 
 <?php if ($role === 'admin') : ?>
     <hr>

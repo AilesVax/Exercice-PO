@@ -17,19 +17,20 @@ class ReservationController{
   }
 
 
-  public function create(int $activityId){
-      {
-    $user = $_SESSION['user']['id'];
-    $actModel = new ReservationModel();
-    $act = $actModel->createReservation($user,$activityId);
-    $data = [
-      'title' => 'activité',
-      'act' => $act
-    ];
-
-    $this->renderView('reservation/index', $data);
-  }
-  }
+ public function create(int $activityId): void
+    {
+        $userId = $_SESSION['user_id'] ?? null;
+        $reservationModel = new ReservationModel();
+        
+        try {
+            $reservationModel->createReservation($userId, $activityId);
+            $_SESSION['success'] = "Réservation effectuée avec succès !";
+        } catch (Exception $e) {
+            $_SESSION['error'] = $e->getMessage();
+        }
+        header("Location: /MVC/reservation");
+        exit;
+    }
   public function show(int $id){
       {
     $detailsModel = new ReservationModel();
