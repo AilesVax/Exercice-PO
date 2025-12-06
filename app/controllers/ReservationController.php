@@ -2,7 +2,11 @@
 require_once './app/utils/Render.php';
 class ReservationController{
     use Render;
+    private ReservationModel $reservationModel;
 
+    public function __construct() {
+        $this->reservationModel = new ReservationModel();
+    }
   public function index(): void
   {
     $user = $_SESSION['user_id'];;
@@ -55,5 +59,22 @@ class ReservationController{
       exit;
   
   }
+
+  public function list(): void {
+        // Vérifier si utilisateur connecté
+        $userId = $_SESSION['user_id'] ?? null;
+        
+        $roleStmt = $this->reservationModel->getRoleByUserId($userId);
+
+
+        // Récupérer toutes les réservations
+        $reservations = $this->reservationModel->getAllReservations();
+
+        $this->renderView('reservation/list', [
+            'title' => 'Liste des réservations',
+            'reservations' => $reservations,
+            'role' => $roleStmt
+        ]);
+    }
 
 }

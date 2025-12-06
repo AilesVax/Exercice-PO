@@ -53,10 +53,16 @@ public function createUser(array $data) : bool{
 
   public function getAllUsers(): array
   {
-    $users = $this->co->prepare('SELECT prenom FROM User');
+    $users = $this->co->prepare('SELECT * FROM Users');
     $users->execute();
  
-    return $users->fetchAll(PDO::FETCH_CLASS, 'User');
+    return $users->fetchAll(PDO::FETCH_ASSOC);
   }
-
+public function getRoleByUserId(int $id): string
+{
+    $stmt = $this->co->prepare('SELECT role FROM users WHERE id = :id');
+    $stmt->execute(['id' => $id]);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result['role'] ?? '';
+}
 }

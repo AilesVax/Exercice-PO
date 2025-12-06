@@ -41,5 +41,21 @@ return false;
             return $result;
     }
 
+     public function getAllReservations(): array {
+        $stmt = $this->co->query("SELECT reservations.*,a.nom AS activite_nom,u.prenom, u.nom AS user_nom
+    FROM reservations 
+    JOIN activities a ON reservations.activite_id = a.id
+    JOIN users u ON reservations.user_id = u.id
+    ORDER BY reservations.date_reservation DESC
+        ");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getRoleByUserId(int $id): array {
+        $stmt = $this->co->prepare("SELECT role FROM users WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
+
 

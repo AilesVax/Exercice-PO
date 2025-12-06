@@ -1,12 +1,24 @@
 <?php
 require_once './app/utils/Render.php';
-class UserController{
+class UserController extends Bdd{
       use Render;
-
-
+ private UserModel $userModel;
+    public function __construct()
+    {
+        parent::__construct(); 
+        $this->userModel = new UserModel();
+    }
 
   public function index() : void{
-
+    $user = new UserModel();
+    $allUser = $user->getAllUsers();
+    $userId = $_SESSION['user_id'] ?? null;
+    if (!$userId) die('<p>Utilisateur non connecté</p>');
+    $Role = $user->getRoleByUserId($userId);
+    $this->renderView('user/index', [
+        'allUser' => $allUser,
+        'role' => $Role
+    ]);
   }  
   
 public function register(array $data = []): void {
