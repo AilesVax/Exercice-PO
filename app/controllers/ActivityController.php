@@ -74,6 +74,8 @@ class ActivityController extends Bdd {
 
     if ($Role === 'admin' && isset($_POST['delete'])) {
         $this->delete($id);
+        header("Location: /MVC/activity");
+        exit;
     }
 
     $details = $this->activiteModel->getActivityById($id);

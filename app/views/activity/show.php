@@ -5,13 +5,13 @@
 <p><strong>Date début :</strong> <?= date('d/m/Y à H:i', strtotime($reserv['datetime_debut'])) ?></p>
 <p><strong>Durée :</strong> <?= $reserv['duree'] ?> heures</p>
 
-<a href="/MVC/activity">Retour à la liste</a>
+<a href="/MVC/activity">Retour à la liste d'activitées</a>
 
 <?php if ($role === 'admin') : ?>
     <hr>
     <h2>Modifier l'activité</h2>
 
-    <form action="/activity/show?id=<?= $reserv['id'] ?>" method="POST">
+    <form action="/MVC/activity/show/<?= $reserv['id'] ?>" method="POST">
         <input type="hidden" name="update" value="1">
 
         <label>Nom :</label>
@@ -27,7 +27,8 @@
         <input type="number" name="places_disponibles" value="<?= $reserv['places_disponibles'] ?>" required><br>
 
         <label>Date de début :</label>
-        <input type="datetime-local" name="datetime_debut" value="<?= date('Y-m-d\TH:i', strtotime($reserv['datetime_debut'])) ?>" required><br>
+        <input type="datetime-local" name="datetime_debut" 
+               value="<?= date('Y-m-d\TH:i', strtotime($reserv['datetime_debut'])) ?>" required><br>
 
         <label>Durée (heures) :</label>
         <input type="number" name="duree" value="<?= $reserv['duree'] ?>" required><br>
@@ -37,7 +38,7 @@
 
     <hr>
     <h2>Supprimer l'activité</h2>
-    <form action="/activity/show?id=<?= $reserv['id'] ?>" method="POST"
+    <form action="/MVC/activity/show/<?= $reserv['id'] ?>" method="POST"
           onsubmit="return confirm('Voulez-vous vraiment supprimer cette activité ?');">
         <input type="hidden" name="delete" value="1">
         <button type="submit">Supprimer</button>

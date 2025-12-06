@@ -18,11 +18,19 @@
     <hr>
     <h2>Créer une nouvelle activité</h2>
 
-    <form action="MVC/activity/create" method="POST">
+    <form action="" method="POST">
+        <input type="hidden" name="create" value="1">
         <label>Nom :</label>
         <input type="text" name="nom" required><br>
-
-        <label>Description :a</label>
+        <label>type :</label>
+        <select name="type_id" required>
+            <option value="">-- Choisir --</option>
+            <option value="1"> 1 - Manège</option>
+            <option value="2" > 2 - spectacle</option>
+            <option value="3" > 3 - atelier</option>
+            <option value="4" > 4 - Jeu / Animation</option>
+        </select><br>
+        <label>Description :</label>
         <textarea name="description"></textarea><br>
 
         <label>Places disponibles :</label>
