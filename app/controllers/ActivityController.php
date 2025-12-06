@@ -15,7 +15,6 @@ class ActivityController extends Bdd {
 
     public function index(): void
     {
-        session_start();
         $userId = $_SESSION['user_id'] ?? null;
         
         if ($userId === null) {
@@ -47,54 +46,51 @@ class ActivityController extends Bdd {
         $this->renderView('activity/index', $data);
     }
 
-    public function show(): void
-    {
-        $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-        
-        if ($id <= 0) {
-            die('<p>ID d\'activité invalide</p>');
-        }
-
-        session_start();
-        $userId = $_SESSION['user_id'] ?? null;
-        
-        if ($userId === null) {
-            die('<p>Utilisateur non connecté</p>');
-        }
-
-        $roleStmt = $this->co->prepare("SELECT role FROM users WHERE id = :id");
-        $roleStmt->execute(['id' => $userId]);
-        $user = $roleStmt->fetch(PDO::FETCH_ASSOC);
-        
-        if (!$user) {
-            die('<p>Utilisateur introuvable</p>');
-        }
-        
-        $Role = $user['role'];
-
-        if ($Role === 'admin' && isset($_POST['update'])) {
-            $this->update($id, $_POST);
-        }
-
-        if ($Role === 'admin' && isset($_POST['delete'])) {
-            $this->delete($id);
-
-        }
-
-        $details = $this->activiteModel->getActivityById($id);
-
-        if (!$details) {
-            die('<p>Activité introuvable</p>');
-        }
-
-        $data = [
-            'title' => 'Détail de l\'activité',
-            'reserv' => $details,
-            'role' => $Role
-        ];
-
-        $this->renderView('activity/show', $data);
+    public function show(int $id): void
+{
+    if ($id <= 0) {
+        die('<p>ID d\'activité invalide</p>');
     }
+
+    $userId = $_SESSION['user_id'] ?? null;
+    
+    if ($userId === null) {
+        die('<p>Utilisateur non connecté</p>');
+    }
+
+    $roleStmt = $this->co->prepare("SELECT role FROM users WHERE id = :id");
+    $roleStmt->execute(['id' => $userId]);
+    $user = $roleStmt->fetch(PDO::FETCH_ASSOC);
+    
+    if (!$user) {
+        die('<p>Utilisateur introuvable</p>');
+    }
+    
+    $Role = $user['role'];
+
+    if ($Role === 'admin' && isset($_POST['update'])) {
+        $this->update($id, $_POST);
+    }
+
+    if ($Role === 'admin' && isset($_POST['delete'])) {
+        $this->delete($id);
+    }
+
+    $details = $this->activiteModel->getActivityById($id);
+
+    if (!$details) {
+        die('<p>Activité introuvable</p>');
+    }
+
+    $data = [
+        'title' => 'Détail de l\'activité',
+        'reserv' => $details,
+        'role' => $Role
+    ];
+
+    $this->renderView('activity/show', $data);
+}
+
 
     public function create(array $data): void
     {

@@ -29,13 +29,16 @@ return false;
     } 
 
     public function cancelReservation(int $reservationId): bool {
-        $sql = $this->co->prepare("UPDATE etat FROM reservation  SET etat = 0 WHERE id = :id");
+        $sql = $this->co->prepare("UPDATE reservations  SET etat = 0 WHERE id = :id");
         return $sql->execute(['id' => $reservationId]);
     }
 
     public function reservationDetail(int $reservationId): array{
         $sql = $this->co->prepare("SELECT reservations.* , activities.* FROM reservations JOIN activities ON reservations.activite_id = activities.id WHERE reservations.id = :id");
-        return $sql->execute(['id' => $reservationId]);
+            $sql->execute(['id' => $reservationId]);
+
+            $result = $sql->fetch(PDO::FETCH_ASSOC);
+            return $result;
     }
 
 }

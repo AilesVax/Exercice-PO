@@ -8,7 +8,7 @@
             <li>
                 <strong><?= htmlspecialchars($act['nom']) ?></strong>
                  <?= htmlspecialchars($act['description']) ?>
-                <a href="/activity/show?id=<?= $act['id'] ?>">Voir détail</a>
+                <a href="activity/show/<?= $act['id'] ?>">Voir détail</a>
             </li>
         <?php endforeach; ?>
     </ul>
@@ -22,7 +22,7 @@
         <label>Nom :</label>
         <input type="text" name="nom" required><br>
 
-        <label>Description :</label>
+        <label>Description :a</label>
         <textarea name="description"></textarea><br>
 
         <label>Places disponibles :</label>
