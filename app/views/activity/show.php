@@ -1,3 +1,4 @@
+
 <h1>Détail de l'activité : <?= htmlspecialchars($reserv['nom']) ?></h1>
 
 <p><strong>Description :</strong> <?= htmlspecialchars($reserv['description']) ?></p>
@@ -5,13 +6,14 @@
 <p><strong>Date début :</strong> <?= date('d/m/Y à H:i', strtotime($reserv['datetime_debut'])) ?></p>
 <p><strong>Durée :</strong> <?= $reserv['duree'] ?> heures</p>
 
+<?php if ($placesLeft > 1) : ?>
 <a href="/MVC/activity">Retour à la liste d'activitées</a>
 <form action="/MVC/reservation/create/<?= $reserv['id'] ?>" method="POST">
     <button type="submit" >
         Réserver cette activité
     </button>
 </form>
-
+<?php endif; ?>
 <?php if ($role === 'admin') : ?>
     <hr>
     <h2>Modifier l'activité</h2>

@@ -38,4 +38,9 @@ class ActiviteModel extends Bdd {
 
     return max($place_total,0);
   }
+    public function getRoleByUserId(int $id): array {
+      $stmt = $this->co->prepare("SELECT role FROM users WHERE id = :id");
+      $stmt->execute(['id' => $id]);
+      return $stmt->fetch(PDO::FETCH_ASSOC);
+  }
 }

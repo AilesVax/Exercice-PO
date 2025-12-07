@@ -18,20 +18,19 @@ class ActivityController extends Bdd {
         $userId = $_SESSION['user_id'] ?? null;
         
         if ($userId === null) {
+            header("Location: /MVC/user/register");
             die('<p>Utilisateur non connecté</p>');
         }
-
-        $roleStmt = $this->co->prepare("SELECT role FROM users WHERE id = :id");
-        $roleStmt->execute(['id' => $userId]);
-        $user = $roleStmt->fetch(PDO::FETCH_ASSOC);
+        $roleData = $this->activiteModel->getRoleByUserId($userId);
+        $user = $roleData['role'] ?? null;
         
         if (!$user) {
+            header("Location: /MVC/user/register");
             die('<p>Utilisateur introuvable</p>');
         }
         
-        $Role = $user['role'];
 
-        if ($Role === 'admin' && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
+        if ($user === 'admin' && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
             $this->create($_POST);
         }
 
@@ -40,7 +39,7 @@ class ActivityController extends Bdd {
         $data = [
             'title' => 'Liste des activités',
             'reserv' => $activites,
-            'role' => $Role
+            'role' => $user
         ];
 
         $this->renderView('activity/index', $data);
@@ -55,29 +54,28 @@ class ActivityController extends Bdd {
     $userId = $_SESSION['user_id'] ?? null;
     
     if ($userId === null) {
+        header("Location: /MVC/user/register");
         die('<p>Utilisateur non connecté</p>');
     }
 
-    $roleStmt = $this->co->prepare("SELECT role FROM users WHERE id = :id");
-    $roleStmt->execute(['id' => $userId]);
-    $user = $roleStmt->fetch(PDO::FETCH_ASSOC);
+        $roleData = $this->activiteModel->getRoleByUserId($userId);
+        $user = $roleData['role'] ?? null;
     
     if (!$user) {
+        header("Location: /MVC/user/register");
         die('<p>Utilisateur introuvable</p>');
     }
     
-    $Role = $user['role'];
-
-    if ($Role === 'admin' && isset($_POST['update'])) {
+    if ($user === 'admin' && isset($_POST['update'])) {
         $this->update($id, $_POST);
     }
 
-    if ($Role === 'admin' && isset($_POST['delete'])) {
+    if ($user === 'admin' && isset($_POST['delete'])) {
         $this->delete($id);
         header("Location: /MVC/activity");
         exit;
     }
-
+    $placesLeft = $this->activiteModel->getPlacesLeft($id);
     $details = $this->activiteModel->getActivityById($id);
 
     if (!$details) {
@@ -87,7 +85,9 @@ class ActivityController extends Bdd {
     $data = [
         'title' => 'Détail de l\'activité',
         'reserv' => $details,
-        'role' => $Role
+        'role' => $user,
+        'placesLeft' => $placesLeft
+
     ];
 
     $this->renderView('activity/show', $data);
