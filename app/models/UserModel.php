@@ -40,7 +40,7 @@ return [];
 
 
 public function createUser(array $data) : bool{
-  $sql = $this->co->prepare("INSERT INTO users (prenom,nom,email, motdepasse) VALUES(:prenom,:nom,:email,:motdepasse)");
+  $sql = $this->co->prepare("INSERT INTO Users (prenom,nom,email, motdepasse) VALUES(:prenom,:nom,:email,:motdepasse)");
   return $sql->execute([
     'prenom' => $data['prenom'],
     'nom' => $data['nom'],

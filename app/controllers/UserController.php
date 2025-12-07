@@ -21,25 +21,29 @@ class UserController extends Bdd{
     ]);
   }  
   
-public function register(array $data = []): void {
+public function register(): void {
 
-    if (!empty($data)) {
+    // Récupération des données POST
+    if (!empty($_POST)) {
+
         $createUser = new UserModel();
-        $user = $createUser->createUser($data);
+        $userCreated = $createUser->createUser($_POST);
 
         $this->renderView('user/register', [
             'title' => 'Utilisateur créé',
-            'users' =>  $user = [
+            'users' => [
                 'nom' => $_POST['nom'],
                 'email' => $_POST['email']
             ]
         ]);
-    } else {
+    } 
+    else {
         $this->renderView('user/register', [
             'title' => 'Créer un utilisateur'
         ]);
     }
 }
+
  
 public function login(string $email = '', string $mdp = ''): void {
 
