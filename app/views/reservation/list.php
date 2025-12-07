@@ -15,7 +15,7 @@
             <tr>
                 <td><?= $r['id'] ?></td>
                 <td><?= htmlspecialchars($r['activite_nom']) ?></td>
-                <td><?= htmlspecialchars($r['prenom'] . ' ' . $r['user_nom']) ?></td>
+                <td><?= htmlspecialchars($r['user_prenom'] . ' ' . $r['user_nom']) ?></td>
                 <td><?= htmlspecialchars($r['date_reservation']) ?></td>
                 <td><?= $r['etat'] == 1 ? 'Confirmée' : 'Annulée' ?></td>
             </tr>

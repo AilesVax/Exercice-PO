@@ -5,6 +5,6 @@
             Date : <?= htmlspecialchars($reserve['date_reservation']) ?><br>
             État : <?= htmlspecialchars($reserve['etat']) ?>
         </p>
-        <a href="/MVC/reservation/show/<?= $reserve['activite_id'] ?>">Voir détails</a>
+        <a href="/MVC/reservation/show/<?= $reserve['id'] ?>">Voir détails</a>
     <?php endif; ?>
 <?php endforeach; ?>

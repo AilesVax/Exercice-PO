@@ -28,12 +28,8 @@
         <a href=""></a>
 
     </div>
-<form method="post" action="/MVC/reservation/cancel/<?= $act['id'] ?>">
+<form method="post" action="/MVC/reservation/cancel/<?= $act['reservation_id'] ?>">
     <button type="submit">Annuler la réservation</button>
 </form>
-
-<?php else: ?>
-
-    <p>Aucune réservation trouvée.</p>
 
 <?php endif; ?>

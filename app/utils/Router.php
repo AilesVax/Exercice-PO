@@ -17,10 +17,14 @@ class Router {
             if (method_exists($controller, $methodName)) {
                 call_user_func_array([$controller, $methodName], $params);
             } else {
-                die('<p>Méthode introuvable</p>');
+                http_response_code(404);
+                require './app/views/404.php';
+                exit;
             }
         } else {
-            die('<p>Controleur introuvable</p>');
+                http_response_code(404);
+                require './app/views/404.php';
+                exit;
         }
         
     }

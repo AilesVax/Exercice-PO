@@ -61,19 +61,17 @@ class ReservationController{
   }
 
   public function list(): void {
-        // Vérifier si utilisateur connecté
         $userId = $_SESSION['user_id'] ?? null;
         
-        $roleStmt = $this->reservationModel->getRoleByUserId($userId);
+        $roleData = $this->reservationModel->getRoleByUserId($userId);
+        $role = $roleData['role'] ?? null;
 
-
-        // Récupérer toutes les réservations
         $reservations = $this->reservationModel->getAllReservations();
 
         $this->renderView('reservation/list', [
             'title' => 'Liste des réservations',
             'reservations' => $reservations,
-            'role' => $roleStmt
+            'role' => $role
         ]);
     }
 
