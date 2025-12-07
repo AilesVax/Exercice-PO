@@ -1,4 +1,12 @@
-
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des activités</title>
+    <link rel="stylesheet" href="/MVC/app/public/css/style.css">
+</head>
+<body>
 <?php if ($role === 'admin') : ?>
 <h1><?= htmlspecialchars($title) ?></h1>
 
@@ -25,3 +33,5 @@
     <p>Aucune réservation trouvée.</p>
 <?php endif; ?>
 <?php endif; ?>
+</body>
+</html>

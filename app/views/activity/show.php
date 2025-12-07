@@ -1,3 +1,12 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>details des activités</title>
+    <link rel="stylesheet" href="/MVC/app/public/css/style.css">
+</head>
+<body>
 
 <h1>Détail de l'activité : <?= htmlspecialchars($reserv['nom']) ?></h1>
 
@@ -51,3 +60,5 @@
         <button type="submit">Supprimer</button>
     </form>
 <?php endif; ?>
+</body>
+</html>
