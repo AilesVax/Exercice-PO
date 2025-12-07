@@ -16,6 +16,8 @@
         </p>
         <a href="/MVC/reservation/show/<?= $reserve['id'] ?>">Voir détails</a>
     <?php endif; ?>
-<?php endforeach; ?>
+<?php endforeach; ?> 
+<br>
+<a href="/MVC/activity">Liste des activitées</a>
 </body>
 </html>

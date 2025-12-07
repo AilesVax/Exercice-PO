@@ -25,14 +25,14 @@
     <input type="password" name="motdepasse" id="password" required><br><br>
 
     <button type="submit">Créer l'utilisateur</button>
-<p><a href="logout">Se deconnecter</a></p>
+
 </form>
 
 <?php if (!empty($users)) : ?>
     <h2>Utilisateur créé :</h2>
     <p><strong>Nom :</strong> <?= htmlspecialchars($users['nom']) ?></p>
     <p><strong>Email :</strong> <?= htmlspecialchars($users['email']) ?></p>
-    
+   
 <?php endif; ?>
 
 </body>

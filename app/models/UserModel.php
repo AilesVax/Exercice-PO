@@ -5,19 +5,8 @@ class UserModel extends Bdd{
   public function __construct(){
     parent::__construct();
   }
- 
- 
-  // public function findOneById(int $id): User | false
-  // {
-  //   $users = $this->co->prepare('SELECT * FROM User WHERE id = :id LIMIT 1');
-  //   $users->setFetchMode(PDO::FETCH_CLASS, 'User');
-  //   $users->execute([
-  //     'id' => $id
-  //   ]);
- 
-  //   return $users->fetch();
-  // }
 
+// se connecter
   public function logUser(string $email, string $motdepasse): array{
     $sql = $this->co->prepare('SELECT * from Users WHERE email = :email LIMIT 1');
     $sql->execute(["email" => $email]);
@@ -38,7 +27,7 @@ return [];
 }
 
 
-
+// creer un utilisateur
 public function createUser(array $data) : bool{
   $sql = $this->co->prepare("INSERT INTO Users (prenom,nom,email, motdepasse) VALUES(:prenom,:nom,:email,:motdepasse)");
   return $sql->execute([
@@ -50,7 +39,7 @@ public function createUser(array $data) : bool{
   }
 
 
-
+// avoir tous les utilisateurs
   public function getAllUsers(): array
   {
     $users = $this->co->prepare('SELECT * FROM Users');
@@ -58,6 +47,8 @@ public function createUser(array $data) : bool{
  
     return $users->fetchAll(PDO::FETCH_ASSOC);
   }
+
+  // prendre utilisateur par leur role
 public function getRoleByUserId(int $id): string
 {
     $stmt = $this->co->prepare('SELECT role FROM users WHERE id = :id');

@@ -9,6 +9,7 @@ class UserController extends Bdd{
         $this->userModel = new UserModel();
     }
 
+    //  Affiche la liste des utilisateurs + le rôle du user connecté
   public function index() : void{
     $user = new UserModel();
     $allUser = $user->getAllUsers();
@@ -21,6 +22,8 @@ class UserController extends Bdd{
     ]);
   }  
   
+//         Enregistrement d’un nouvel utilisateur
+    //   Affiche le formulaire et traite le POST
 public function register(): void {
 
     // Récupération des données POST
@@ -44,7 +47,8 @@ public function register(): void {
     }
 }
 
- 
+        // Connexion utilisateur
+    //  Vérifie l’email et le mot de passe, définit la session
 public function login(string $email = '', string $mdp = ''): void {
 
     // Récupérer les POST si les arguments sont vides
@@ -65,7 +69,7 @@ public function login(string $email = '', string $mdp = ''): void {
             'user'  => $userLog
         ]);
     }
-
+// Déconnexion : supprime la session
      public function logout() : void{
       $_SESSION = [];
 

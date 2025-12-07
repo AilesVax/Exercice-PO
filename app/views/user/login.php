@@ -27,6 +27,7 @@
 
 <?php if (!empty($user)) : ?>
     <h2>Bienvenue <?= htmlspecialchars($user['prenom']) ?> <?= htmlspecialchars($user['nom']) ?> !</h2>
+     <a href="/MVC/activity">Liste des activitées</a>
 <?php endif; ?>
 </body>
 </html>

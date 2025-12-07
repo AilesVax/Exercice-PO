@@ -55,6 +55,8 @@
         <button type="submit">Créer</button>
     </form>
 <?php endif; ?>
-
+<a href="/MVC/reservation">Reservation</a>
+<br>
+<p><a href="user/logout">Se deconnecter</a></p>
 </body>
 </html>

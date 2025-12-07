@@ -7,9 +7,11 @@ class ReservationController{
     public function __construct() {
         $this->reservationModel = new ReservationModel();
     }
+
+    // afficher toutes les reservations
   public function index(): void
   {
-    $user = $_SESSION['user_id'];;
+    $user = $_SESSION['user_id'];
     $reservModel = new ReservationModel();
     $reserv = $reservModel->getReservationsByUserId($user);
     $data = [
@@ -20,7 +22,7 @@ class ReservationController{
     $this->renderView('reservation/index', $data);
   }
 
-
+// creer la reservation
  public function create(int $activityId): void
     {
         $userId = $_SESSION['user_id'] ?? null;
@@ -35,6 +37,8 @@ class ReservationController{
         header("Location: /MVC/reservation");
         exit;
     }
+
+    // montrer les details d'une reservation
   public function show(int $id){
       {
     $detailsModel = new ReservationModel();
@@ -48,7 +52,7 @@ class ReservationController{
   }
   }
   
-
+// annuler une reservation
     public function cancel(int $id){
 
     $cancelModel = new ReservationModel();
@@ -59,7 +63,7 @@ class ReservationController{
       exit;
   
   }
-
+// afficher toutes les reservations effectuer ou annuler avec le faite de prendre le role car visible apr admin
   public function list(): void {
         $userId = $_SESSION['user_id'] ?? null;
         
