@@ -5,19 +5,20 @@ class ActiviteModel extends Bdd {
   public function __construct(){
     parent::__construct();
   }
-    
+  // recupere toutes les activitées 
+
   public function getAllActivities(): array {
     $activites = $this->co->prepare('SELECT * FROM activities');
     $activites->execute();
     return $activites->fetchAll(PDO::FETCH_ASSOC);
   }
-
+  // recupere l'activité par son id
   public function getActivityById(int $id) : array {
     $activite = $this->co->prepare('SELECT * FROM activities WHERE id = :id');
     $activite->execute(['id' => $id]);
     return $activite->fetch(PDO::FETCH_ASSOC);
   }
-    
+  // recuperer le nombre de place disponible en retirant les places deja reserver
   public function getPlacesLeft(int $activityId): int{
     $places = $this->co->prepare('SELECT places_disponibles FROM activities WHERE id = :id');
     $places->execute(['id' => $activityId]);
@@ -35,7 +36,7 @@ class ActiviteModel extends Bdd {
 
     $nb_reservations = (int) $reservation['nb_reservations']; 
     $place_total = $places_disponibles - $nb_reservations;
-
+    // retourne soit 0 soit le nombre de place disponible
     return max($place_total,0);
   }
     public function getRoleByUserId(int $id): array {

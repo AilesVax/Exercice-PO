@@ -12,7 +12,7 @@ class ActivityController extends Bdd {
         parent::__construct(); 
         $this->activiteModel = new ActiviteModel();
     }
-
+    // montre toute les activitées et permet de rajouter une activitée si le user est admin
     public function index(): void
     {
         $userId = $_SESSION['user_id'] ?? null;
@@ -29,11 +29,11 @@ class ActivityController extends Bdd {
             die('<p>Utilisateur introuvable</p>');
         }
         
-
+        // creation de la nouvelle activité dans la bdd
         if ($user === 'admin' && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
             $this->create($_POST);
         }
-
+        //recuperation de toute les activitées dans la bdd
         $activites = $this->activiteModel->getAllActivities();
 
         $data = [
@@ -44,7 +44,7 @@ class ActivityController extends Bdd {
 
         $this->renderView('activity/index', $data);
     }
-
+// details d'une activitée grace a son id 
     public function show(int $id): void
 {
     if ($id <= 0) {
@@ -57,7 +57,7 @@ class ActivityController extends Bdd {
         header("Location: /MVC/user/register");
         die('<p>Utilisateur non connecté</p>');
     }
-
+    // recuperer si l'user est admin ou non
         $roleData = $this->activiteModel->getRoleByUserId($userId);
         $user = $roleData['role'] ?? null;
     
@@ -65,16 +65,18 @@ class ActivityController extends Bdd {
         header("Location: /MVC/user/register");
         die('<p>Utilisateur introuvable</p>');
     }
-    
+    // effectuer la fonction pour update dans la bdd
     if ($user === 'admin' && isset($_POST['update'])) {
         $this->update($id, $_POST);
     }
+    // effectuer la fonction pour supprimer dans la bdd
 
     if ($user === 'admin' && isset($_POST['delete'])) {
         $this->delete($id);
         header("Location: /MVC/activity");
         exit;
     }
+    // recuperer le nombre de place restante dans l'activité
     $placesLeft = $this->activiteModel->getPlacesLeft($id);
     $details = $this->activiteModel->getActivityById($id);
 
@@ -93,6 +95,7 @@ class ActivityController extends Bdd {
     $this->renderView('activity/show', $data);
 }
 
+    // creer dans la bdd nouvelle activite grace au form 
 
     public function create(array $data): void
     {
@@ -110,6 +113,7 @@ class ActivityController extends Bdd {
             'duree'      => $data['duree']
         ]);
     }
+    // update de la bdd l'activité par son id 
 
     public function update(int $id, array $data): void
     {
@@ -126,7 +130,7 @@ class ActivityController extends Bdd {
             'id'         => $id
         ]);
     }
-
+    // supprimer de la bdd l'activité par son id et ses reservations
     public function delete(int $id): void
     {
         $deleteReserv = $this->co->prepare("DELETE FROM reservations WHERE activite_id = :id");

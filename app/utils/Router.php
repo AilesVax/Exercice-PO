@@ -4,10 +4,16 @@ class Router {
     public function dispatch($url) {
         $url = trim($url, '/');
         $url = explode('/', $url);
-
-        $controllerName = ucfirst($url[1] ?? 'user') . 'Controller'; // Index 1 car /MVC/user/...
-        $methodName = $url[2] ?? 'index';
-        $params = array_slice($url, 3);
+        // toute les activités en index
+        if (empty($url[1]) || $url[1] === '') {
+            $controllerName = 'ActivityController';
+            $methodName = 'index';
+            $params = [];
+        } else {
+            $controllerName = ucfirst($url[1]) . 'Controller';
+            $methodName = $url[2] ?? 'index';
+            $params = array_slice($url, 3);
+        }
 
         $controllerFile = "./app/controllers/$controllerName.php";
         if (file_exists($controllerFile)) {
